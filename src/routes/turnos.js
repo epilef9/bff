@@ -5,10 +5,15 @@ const config = require('../config/config');
 
 const BACKEND_URL = config.BACKEND_URL;
 
+const getHeaders = (req) => ({
+    headers: req.headers.authorization ? { Authorization: req.headers.authorization } : {}
+});
+
+
 // GET todos
 router.get('/', async (req, res, next) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/api/turnos`);
+        const response = await axios.get(`${BACKEND_URL}/api/turnos`, getHeaders(req));
         res.json(response.data);
     } catch (error) {
         next(error);
@@ -18,7 +23,7 @@ router.get('/', async (req, res, next) => {
 // GET por ID
 router.get('/:id', async (req, res, next) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/api/turnos/${req.params.id}`);
+        const response = await axios.get(`${BACKEND_URL}/api/turnos/${req.params.id}`, getHeaders(req));
         res.json(response.data);
     } catch (error) {
         next(error);
@@ -28,7 +33,7 @@ router.get('/:id', async (req, res, next) => {
 // GET por cliente
 router.get('/cliente/:clienteId', async (req, res, next) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/api/turnos/cliente/${req.params.clienteId}`);
+        const response = await axios.get(`${BACKEND_URL}/api/turnos/cliente/${req.params.clienteId}`, getHeaders(req));
         res.json(response.data);
     } catch (error) {
         next(error);
@@ -38,7 +43,7 @@ router.get('/cliente/:clienteId', async (req, res, next) => {
 // GET por barbero
 router.get('/barbero/:barberoId', async (req, res, next) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/api/turnos/barbero/${req.params.barberoId}`);
+        const response = await axios.get(`${BACKEND_URL}/api/turnos/barbero/${req.params.barberoId}`, getHeaders(req));
         res.json(response.data);
     } catch (error) {
         next(error);
@@ -48,7 +53,7 @@ router.get('/barbero/:barberoId', async (req, res, next) => {
 // POST crear
 router.post('/', async (req, res, next) => {
     try {
-        const response = await axios.post(`${BACKEND_URL}/api/turnos`, req.body);
+        const response = await axios.post(`${BACKEND_URL}/api/turnos`, req.body, getHeaders(req));
         res.status(201).json(response.data);
     } catch (error) {
         next(error);
@@ -58,7 +63,7 @@ router.post('/', async (req, res, next) => {
 // PUT actualizar
 router.put('/:id', async (req, res, next) => {
     try {
-        const response = await axios.put(`${BACKEND_URL}/api/turnos/${req.params.id}`, req.body);
+        const response = await axios.put(`${BACKEND_URL}/api/turnos/${req.params.id}`, req.body, getHeaders(req));
         res.json(response.data);
     } catch (error) {
         next(error);
@@ -68,7 +73,7 @@ router.put('/:id', async (req, res, next) => {
 // DELETE
 router.delete('/:id', async (req, res, next) => {
     try {
-        await axios.delete(`${BACKEND_URL}/api/turnos/${req.params.id}`);
+        await axios.delete(`${BACKEND_URL}/api/turnos/${req.params.id}`, getHeaders(req));
         res.status(204).send();
     } catch (error) {
         next(error);
