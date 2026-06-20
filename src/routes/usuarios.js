@@ -14,6 +14,15 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
+// GET por email (debe ir antes de /:id para que Express no lo confunda)
+router.get('/email/:email', async (req, res, next) => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/api/usuarios/email/${req.params.email}`);
+        res.json(response.data);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // GET por ID
 router.get('/:id', async (req, res, next) => {
